@@ -48,6 +48,8 @@ function makeResponsive() {
     //if (!data.healthcare) {data.healthcare = 0};
     data.obesity = +data.obesity;
     //console.log(fullData);
+    data.state = data.state;
+    data.abbr = data.abbr;
   });
 
 labelArea = 30;
@@ -71,7 +73,7 @@ labelArea = 30;
 
       // append circles
       var circles = 
-      svg
+      chartGroup
         .selectAll("circle")
         .data(fullData)
         .enter()
@@ -79,18 +81,22 @@ labelArea = 30;
         .attr("cx", d => xLinearScale(d.obesity))
         .attr("cy", d => yLinearScale(d.healthcare))
         .attr("r", 15)
-        .attr("class", "stateCircle");
+        .attr("fill", "blue")
+        .attr("opacity", ".6");
+        //.attr("class", "stateCircle");
         circles
-        .selectAll("text")
+        chartGroup.selectAll("text")
         .data(fullData)
         .enter()
         .append("text")
-        .attr("class","stateText")
-         .attr("dx", d => xLinearScale(d.obesity))
-         .attr("dy", d => yLinearScale(d.healthcare))
-         .attr("font-size",15)
-         .text(function(d) {
-          return d.abbr;});
+        .classed("stateText", true)
+         .attr("x", d => xLinearScale(d.obesity))
+         .attr("y", d => yLinearScale(d.healthcare))
+         .attr("text-anchor","middle")
+        .attr("font-size","12px")
+        .attr("fill", "black")
+        .text(d => d.abbr);
+        
 
 svg.append("g")
         .call(xAxis)
@@ -103,7 +109,7 @@ svg.append("g")
   
       // Step 1: Initialize Tooltip
       var toolTip = d3.tip()
-        .attr("class", "tooltip")
+        .attr("class", "d3-tip")
         .offset([80, -60])
         .html(function(fullData) {
           return (`<strong>State: ${d.state}<strong><hr>Obesity: ${d.obesity}<strong><hr>Health Care: ${d.healthcare}`);
