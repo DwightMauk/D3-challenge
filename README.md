@@ -9,3 +9,5 @@ Using the D3 techniques created a scatter plot that represents each state with c
 Included state abbreviations in the circles of the scatter plot.
 Created and situated axes and labels to the left and bottom of the chart.
 Used python -m http.server to run the visualization. 
+
+![page](d3.PNG)
